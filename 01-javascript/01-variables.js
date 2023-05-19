@@ -105,4 +105,37 @@ console.log(Object.keys(liz));
 console.log(Object.values(liz));
 delete liz.nombre;
 console.log(Object.keys(liz));
-console.log(liz); 
+console.log(liz);
+
+// Variables por valor o por referencia
+// Variables por valor
+// Primitivas: number string boolean
+
+let edadliz = 24;
+let edadJomayra = edadLiz;
+
+console.log(edadliz);
+console.log(edadJomayra);
+edadLiz = edadJomayra+1;
+console.log(edadLiz);
+console.log(edadJomayra);
+
+//Variables por referencia
+//object: {}[]
+ let notas = {
+     total: 10,
+ };
+ let notasSegundoBimestre = notas; // Igualacion referencia
+notasSegundoBimestre.total = notasSegundoBimestre.total + 1;
+console.log(notas); // 11
+console.log(notasSegundoBimestre)
+
+//como clonar objetos
+let notasTercerBimestre = Object.assign({},notas);
+
+//Object.assign([], arreglo)
+notasTercerBimestre.total = notasTercerBimestre.total +1;
+console.log(notas);
+console.log(notasSegundoBimestre);
+console.log(notasTercerBimestre);
+
