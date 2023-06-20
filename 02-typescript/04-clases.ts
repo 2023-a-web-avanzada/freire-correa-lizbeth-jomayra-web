@@ -31,13 +31,13 @@ class Usuario extends Persona {
     }
 }
 
-const adrian = new Usuario(
-    'Adrian',
-    'Eguez',
-    '1718137159',
-    'casado'
+const liz = new Usuario(
+    'Liz',
+    'Freire',
+    '1750265769',
+    'soltera'
 );
-adrian.nombre;
-adrian.apellido;
-adrian.cedula; // '1718137159'
-adrian.estadoCivil; // 'casado'
+liz.nombre;
+liz.apellido;
+liz.cedula; // '1750265769'
+liz.estadoCivil; // 'soltera'

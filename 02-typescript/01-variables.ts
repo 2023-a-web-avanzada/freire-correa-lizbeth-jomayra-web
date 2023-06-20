@@ -1,4 +1,4 @@
-//01-variables.ts
+ //01-variables.ts
 // npm install -g typescript
 //tsc
 let nombre: string = 'Liz'; //primivito
