@@ -9,11 +9,11 @@ const pinkStyle = css`
 `
 const TituloNaranja = styled.h1`
   color: orange;
-  font-size: 8px;
+  font-size: 20px;
 `
 const TituloVerde = styled.h2`
   color: green;
-  font-size: 10px;
+  font-size: 20px;
 `
 export default function DEstilosEjemplo() {
     return(
