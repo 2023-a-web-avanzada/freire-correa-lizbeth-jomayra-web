@@ -23,7 +23,7 @@ export default function EComponenteA() {
                     e.preventDefault();
                     contenedorContexto.setNombreUsuario("CompA")
                 }
-            }> v
+            }>
                 Actualizar
             </button>
             <EComponenteB></EComponenteB>
