@@ -14,10 +14,13 @@ const b_componente = ()=>{
 }
 */
 
+import DEstilosEjemplo from "@/app/componentes/DEstilosEjemplo";
+
 export default function page(){
     return(
         <>
             <h1>Hola desde a_hola_mundo 2</h1>
+            <DEstilosEjemplo/>
         </>
     )
 }
