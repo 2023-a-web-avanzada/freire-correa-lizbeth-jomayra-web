@@ -1,5 +1,5 @@
 {
-  "name": "examen1b",
+  "name": "examen1bcrudjs",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,5 +10,9 @@
   "license": "ISC",
   "dependencies": {
     "inquirer": "^9.2.7"
+  },
+  "type": "module",
+  "devDependencies": {
+
   }
 }

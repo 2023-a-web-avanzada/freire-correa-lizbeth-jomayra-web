@@ -1,0 +1,1 @@
+[{"id":"01","nombre":"Huevos revueltos","tiempoDePreparacion":"5min","listaIngredientes":[{"id":"1","nombre":"huevos","cantidad":4,"esReemplazable":false,"alGusto":false},{"id":"2","nombre":"jamon","cantidad":25,"esReemplazable":false,"alGusto":false}],"porciones":"4"}]

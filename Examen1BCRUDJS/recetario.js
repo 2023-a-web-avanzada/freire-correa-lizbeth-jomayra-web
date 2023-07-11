@@ -1,8 +1,8 @@
-import inquirer from 'inquirer';
 //const fs = require('fs');
 import fs from "fs"
+import inquirer from "inquirer";
 class Receta {
-    constructor(id, nombre, porciones, tiempoDePreparacion, listaIngredientes,  ) {
+    constructor(id, nombre, porciones, tiempoDePreparacion, listaIngredientes ) {
         this.id = id;
         this.nombre= nombre;
         this.porciones = porciones;
@@ -38,12 +38,12 @@ class Receta {
             ]).then(a=> {
                 promesareceta = new Promise(
                     respuesta => (
-                            receta1.id = a.id,
+                        receta1.id = a.id,
                             receta1.nombre = a.nombre,
-                                receta1.porciones = a.porciones,
-                                receta1.tiempoDePreparacion = a.tiempoDePreparacion,
-                                receta1.listaIngredientes = [],
-                                respuesta(receta1)
+                            receta1.porciones = a.porciones,
+                            receta1.tiempoDePreparacion = a.tiempoDePreparacion,
+                            receta1.listaIngredientes = [],
+                            respuesta(receta1)
                     )
                 );
             });
@@ -60,27 +60,32 @@ class Receta {
                     message: 'Ingrese el nombre de la receta'
                 },
                 {
-                    type: 'raw-list',
+                    type: 'rawlist',
                     name: 'opcionesCambiar',
                     message: '¿Qué desea actualizar?',
                     choices: ['nombre', 'porciones', 'tiempoPreparacion']
                 },
-            ]).then(respuestaAsincrona=>{
+                {
+                    type: 'input',
+                    name: 'nuevoDato',
+                    message: 'Ingrese el nuevo dato: '
+                }
+            ]).then(a=>{
                 promesaReceta = new Promise(
                     respuesta => (
                         listaRecetas.forEach(
                             valorActual => {
-                                if(valorActual.nombre === respuestaAsincrona.recetaNombre){
+                                if(valorActual.nombre === a.recetaNombre){
                                     indexReceta = listaRecetas.indexOf(valorActual)
-                                    switch (respuestaAsincrona.opcionesCambiar) {
+                                    switch (a.opcionesCambiar) {
                                         case "nombre":
-                                            listaRecetas[indexReceta].nombre = respuestaAsincrona.nuevoDato
+                                            listaRecetas[indexReceta].nombre = a.nuevoDato
                                             break
                                         case "porciones":
-                                            listaRecetas[indexReceta].porciones = respuestaAsincrona.nuevoDato
+                                            listaRecetas[indexReceta].porciones = a.nuevoDato
                                             break
                                         case "tiempoPreparacion":
-                                            listaRecetas[indexReceta].tiempoDePreparacion = respuestaAsincrona.nuevoDato
+                                            listaRecetas[indexReceta].tiempoDePreparacion = a.nuevoDato
                                             break
                                     }
                                 }
@@ -100,7 +105,7 @@ class Receta {
                 {
                     type: 'input',
                     name: 'id',
-                    message: 'Ingrese el id de la universidad para eliminar'
+                    message: 'Ingrese el id de la receta para eliminar'
                 },
             ]).then(respuestaAsincrona=>{
                 promesaReceta = new Promise(
@@ -273,13 +278,13 @@ async function main(){
         const respuesta = await inquirer
             .prompt([
                 {
-                    type: 'raw-list',
+                    type: 'rawlist',
                     name: 'opcion',
                     message: '(---Recetario by Lizbeth Freire)\n' + 'Elige una opción:',
                     choices: ['Agregar', 'Listar Recetas', 'Actualizar', 'Eliminar', 'Ingredientes', 'Salir']
                 }
-            ]).then((respuestaAsincrona) =>{
-                switch (respuestaAsincrona) {
+            ]).then((answer) =>{
+                switch (answer.opcion) {
                     case 'Agregar':
                         receta.createReceta().then(
                             (datosReceta) => {
@@ -325,12 +330,12 @@ async function main(){
                         )
                         break
                     case 'Ingredientes':
-                        var recetaN = new Receta()
+                        var ingredienteN = new Ingrediente()
                         var indexReceta;
                         readFile('./Recetas.txt').then(
                             datosReceta =>{
                                 const listaRecetas = JSON.parse(datosReceta)
-                                recetaN.indexReceta(listaRecetas).then(
+                                ingredienteN.indexReceta(listaRecetas).then(
                                     indice => {
                                         indexReceta = parseInt(indice)
                                         mainIngrediente();
@@ -338,66 +343,66 @@ async function main(){
                                 )
                             }
                         )
-                        async function mainIngrediente(){
-                            try{
-                                ingrediente = new Ingrediente()
-                                var recetas = readFile('./Recetas.txt').then(
-                                    datosReceta => {
-                                        recetas = JSON.parse(datosReceta)
+                    async function mainIngrediente(){
+                        try{
+                            ingredienteN = new Ingrediente()
+                            var recetas = readFile('./Recetas.txt').then(
+                                datosReceta => {
+                                    recetas = JSON.parse(datosReceta)
+                                }
+                            )
+                            const respuestaOpciones = await inquirer
+                                .prompt([
+                                    {
+                                        type: 'rawlist',
+                                        name: 'opcion',
+                                        message: 'Ingredientes\n'+ 'Elige una opción: ',
+                                        choices: ['Agregar','Listar', 'Actualizar','Borrar','Salir']
                                     }
-                                )
-                                const respuestaOpciones = await inquirer
-                                    .prompt([
-                                        {
-                                            type: 'raw-list',
-                                            name: 'opcion',
-                                            message: 'Ingredientes\n'+ 'Elige una opción: ',
-                                            choices: ['Agregar','Listar', 'Actualizar','Borrar','Salir']
+                                ]).then((respuestaP)=>{
+                                    switch (respuestaP.opcion) {
+                                        case 'Agregar':
+                                            ingredienteN.agregarIngrediente().then(
+                                                (datosIngredientes) =>{
+                                                    recetas[indexReceta].listaIngredientes.push(datosIngredientes)
+                                                    writeFile('./Recetas.txt', JSON.stringify(recetas))
+                                                    mainIngrediente()
+                                                }
+                                            )
+                                            break
+                                        case 'Listar':
+                                            console.log(recetas[indexReceta].listaIngredientes)
+                                            mainIngrediente()
+                                            break
+                                        case 'Actualizar':
+                                            ingredienteN.actualizarIngrediente(recetas, indexReceta).then(
+                                                nuevosDatos => {
+                                                    writeFile('./Recetas.txt', JSON.stringify(nuevosDatos))
+                                                    console.log('Actualización exitosa')
+                                                    mainIngrediente()
+                                                }
+                                            )
+                                            break
+                                        case 'Borrar':
+                                            ingredienteN.eliminarIngrediente(recetas, indexReceta).then(
+                                                nuevosDatos => {
+                                                    writeFile('./Recetas.txt', JSON.stringify(nuevosDatos))
+                                                    console.log('Se ha eliminado correctamente')
+                                                    mainIngrediente()
+                                                }
+                                            )
+                                            break
+                                        case 'Salir':
+                                            main()
+                                            break
+
                                     }
-                                    ]).then((respuestaP)=>{
-                                        switch (respuestaP.opcion) {
-                                            case 'Agregar':
-                                                ingrediente.agregarIngrediente().then(
-                                                    (datosIngredientes) =>{
-                                                        recetas[indexReceta].listaIngredientes.push(datosIngredientes)
-                                                        writeFile('./Recetas.txt', JSON.stringify(recetas))
-                                                        mainIngrediente()
-                                                    }
-                                                )
-                                                break
-                                            case 'Listar':
-                                                console.log(recetas[indexReceta].listaIngredientes)
-                                                mainIngrediente()
-                                                break
-                                            case 'Actualizar':
-                                                ingrediente.actualizarIngrediente(recetas, indexReceta).then(
-                                                    nuevosDatos => {
-                                                        writeFile('./Recetas.txt', JSON.stringify(nuevosDatos))
-                                                        console.log('Actualización exitosa')
-                                                        mainIngrediente()
-                                                    }
-                                                )
-                                                break
-                                            case 'Borrar':
-                                                ingrediente.eliminarIngrediente(recetas, indexReceta).then(
-                                                    nuevosDatos => {
-                                                        writeFile('./Recetas.txt', JSON.stringify(nuevosDatos))
-                                                        console.log('Se ha eliminado correctamente')
-                                                        mainIngrediente()
-                                                    }
-                                                )
-                                                break
-                                            case 'Salir':
-                                                main()
-                                                break
+                                });
 
-                                        }
-                                    });
-
-                            }catch(e){
-                                console.error(e);
-                            }
+                        }catch(e){
+                            console.error(e);
                         }
+                    }
                         break
                     case 'Salir':
                         console.log('Gracias')
