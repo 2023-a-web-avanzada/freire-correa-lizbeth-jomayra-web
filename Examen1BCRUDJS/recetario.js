@@ -1,4 +1,3 @@
-//const fs = require('fs');
 import fs from "fs"
 import inquirer from "inquirer";
 class Receta {
